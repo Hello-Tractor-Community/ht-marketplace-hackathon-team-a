@@ -3,6 +3,19 @@ import { EndpointsService } from '../../endpoints.service';
 import { HttpClient } from '@angular/common/http';
 import { NgFor, NgIf } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { NgModel } from '@angular/forms';
+
+interface UsedTractor {
+  TractorID?: number;
+  brand: string;
+  Location: string;
+  HpPower: number;
+  HoursUsed: number;
+  Price: number;
+  Description: string;
+  Image: string;
+  Favorite?: boolean;
+}
 
 @Component({
   selector: 'app-tractors',
@@ -13,72 +26,100 @@ import { GoogleMapsModule } from '@angular/google-maps';
 })
 export class TractorsComponent {
 
-  
-    tabSelected: 'new' | 'used' = 'new'; // default to 'new' tab
-    usedTractors: any[] = []; // Array to store used tractors data
-    brand = ''; // Input value for brand
-    state = ''; // Input value for state
-    isLoading = false; // Loading state for API requests
+  tabSelected: 'new' | 'used' = 'used';
+  usedTractors: UsedTractor[] = [];
+  brand = '';
+  state = '';
+  isLoading = false;
 
-  
-    constructor(private endpointsService: EndpointsService, private http: HttpClient) {}
-  
-    
+  // Message Modal Properties
+  isMessageModalOpen = false;
+  selectedTractor: UsedTractor | null = null;
+  messageSubject = '';
+  messageBody = '';
 
-    
-    ngOnInit(): void {
-      //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-      //Add 'implements OnInit' to the class.
-      this.searchUsedTractor()
-      this.GetUsedTractors()
-      console.log(this.usedTractors)
-      
-    }
-    searchUsedTractor() {
-      // Logic for searching used tractors
-      const url = this.endpointsService.endpoint.SEARCH_USED_TRACTORS;
-      const params = {
-        brand: this.brand,
-        state: this.state,
-      };
-  
-      this.isLoading = true;
-      this.http.get(url, { params }).subscribe({
-        next: (response: any) => {
-          this.usedTractors = response.data[0]; // Assuming API returns `data` key
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Error fetching used tractors:', error);
-          this.isLoading = false;
-        },
-      });
-    }
-  
-    GetUsedTractors() {
-      // Logic for retrieving all used tractors
-      const url = this.endpointsService.endpoint.GET_USED_TRACTORS;
-  
-      this.isLoading = true;
-      this.http.get(url).subscribe({
-        next: (response: any) => {
-          this.usedTractors = response.tractors; // Assuming API returns `data` key
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Error fetching used tractors:', error);
-          this.isLoading = false;
-        },
-      });
-    }
+  constructor(
+    private endpointsService: EndpointsService, 
+    private http: HttpClient
+  ) {}
 
-    toggleFavorite(tractor: any): void {
-      tractor.Favorite = !tractor.Favorite; // Toggle favorite status
-      // Optionally, send an API request to save the favourite state
-      console.log(`Tractor ${tractor.TractorID} favorite status: ${tractor.Favorite}`);
-    }
+  ngOnInit(): void {
+    this.searchUsedTractor();
+    this.GetUsedTractors();
+  }
+
+  searchUsedTractor() {
+    const url = this.endpointsService.endpoint.SEARCH_USED_TRACTORS;
+    const params = {
+      brand: this.brand,
+      state: this.state,
+    };
+
+    this.isLoading = true;
+    this.http.get(url, { params }).subscribe({
+      next: (response: any) => {
+        this.usedTractors = response.data[0];
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching used tractors:', error);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  GetUsedTractors() {
+    const url = this.endpointsService.endpoint.GET_USED_TRACTORS;
+
+    this.isLoading = true;
+    this.http.get(url).subscribe({
+      next: (response: any) => {
+        this.usedTractors = response.tractors;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching used tractors:', error);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  toggleFavorite(tractor: UsedTractor): void {
+    tractor.Favorite = !tractor.Favorite;
+    console.log(`Tractor ${tractor.TractorID} favorite status: ${tractor.Favorite}`);
+  }
+
+  openMessageModal(tractor: UsedTractor) {
+    this.selectedTractor = tractor;
+    this.isMessageModalOpen = true;
     
-    contactSeller () {
-      
-    }
+    // Set default subject
+    this.messageSubject = `Inquiry about ${tractor.brand} Tractor`;
+    this.messageBody = '';
+  }
+
+  closeMessageModal() {
+    this.isMessageModalOpen = false;
+    this.selectedTractor = null;
+  }
+
+  sendMessage() {
+    if (!this.selectedTractor) return;
+
+    // Implement your messaging service logic here
+    console.log('Sending message:', {
+      tractorId: this.selectedTractor.TractorID,
+      subject: this.messageSubject,
+      body: this.messageBody
+    });
+
+    // Example: You might want to call a service method to send the message
+    // this.messagingService.sendMessage(...)
+
+    // Show success notification
+    alert('Message sent successfully!');
+
+    // Close the modal
+    this.closeMessageModal();
+  }
 }
