@@ -40,6 +40,8 @@ Please organize and complete the following deliverables within this repository:
 ### 3. **Live Application URL**
 - Deploy your application to a platform like Vercel, Netlify, or AWS.
 - **Link to Live App**: [Insert live application URL here]
+- **Link to Live Api documentation**: https://ht-marketplace-hackathon-team-a-4.onrender.com/swagger/
+
 
 ### 4. **Technical Documentation**
 - Include setup instructions for running the project locally.
@@ -48,12 +50,12 @@ Please organize and complete the following deliverables within this repository:
 
 ### 5. **Project Report**
 Complete this section in a separate ReadMe file `report.md`:
-- **Project Name**: [Insert your project name]
-- **Team Members**: [List all members and their GitHub handles]
-- **Tech Stack**: [Mention all technologies used]
-- **Key Features**: [Briefly list the implemented features]
-- **Challenges**: [Summarize major challenges faced and how they were solved]
-- **Lessons Learned**: [Highlight key takeaways from the project]
+- **Project Name**: HelloTractor MarketPLace
+- **Team Members**: David Ongora
+- **Tech Stack**: Angular and Django Rest Framework
+- **Key Features**: Displaying of farm implements, tractors, messaging, push notifications, emails, admin panel(hello tractor, seller panel)
+- **Challenges**: Short Time and lack of collaborators
+- **Lessons Learned**: Time management and planning is key in project mamangement
 
 ---
 
