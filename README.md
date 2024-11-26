@@ -39,7 +39,8 @@ Please organize and complete the following deliverables within this repository:
 
 ### 3. **Live Application URL**
 - Deploy your application to a platform like Vercel, Netlify, or AWS.
-- **Link to Live App**: [Insert live application URL here]
+- **Link to live App**: https://vercel.com/davidongoras-projects/ht1/eeXxrjG9UxYfyu8dYXKSpJPCHz7i
+- - **Link to demo App**: https://drive.google.com/file/d/1Ylkv06Agro4GxoYArZkN74quL_j3C1YE/view?usp=drive_link
 - **Link to Live Api documentation**: https://ht-marketplace-hackathon-team-a-4.onrender.com/swagger/
 
 
